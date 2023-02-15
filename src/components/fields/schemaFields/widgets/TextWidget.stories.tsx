@@ -88,3 +88,16 @@ NunjucksTags.args = {
     'My favorite color is {% if @input.day == "Monday" %}red{% else %}blue{% endif %}'
   ),
 };
+
+export const RichTextNunjucksExpression = Template.bind({});
+RichTextNunjucksExpression.args = {
+  value: makeTemplateExpression("nunjucks", "Hello, {{ @input.name }}!"),
+};
+
+export const RichTextNunjucksTags = Template.bind({});
+RichTextNunjucksTags.args = {
+  value: makeTemplateExpression(
+    "nunjucks",
+    'My favorite color is {% if @input.day == "Monday" %}red{% else %}blue{% endif %}'
+  ),
+};
