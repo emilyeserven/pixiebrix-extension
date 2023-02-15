@@ -40,7 +40,8 @@ import {
   makeTemplateExpression,
   makeVariableExpression,
 } from "@/runtime/expressionCreators";
-import { WysiwygEditor } from "@remirror/react-editors/wysiwyg";
+import { useRemirror, Remirror } from "@remirror/react";
+import { BoldExtension } from "remirror/extensions";
 
 function schemaSupportsTemplates(schema: Schema): boolean {
   const options = getToggleOptions({
@@ -76,6 +77,13 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
   ...formControlProps
 }) => {
   const [{ value, ...restInputProps }, , { setValue }] = useField(name);
+
+  const { manager, state } = useRemirror({
+    extensions: () => [new BoldExtension()],
+    content: "<p>I love <b>Remirror</b></p>",
+    selection: "start",
+    stringHandler: "html",
+  });
 
   const { allowExpressions: allowExpressionsContext } =
     useContext(FieldRuntimeContext);
@@ -209,7 +217,7 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
         ref={textAreaRef}
         onKeyDown={keyDownHandler}
       />
-      <WysiwygEditor placeholder="Enter text..." />
+      <Remirror manager={manager} initialContent={state} />
     </>
   );
 };
