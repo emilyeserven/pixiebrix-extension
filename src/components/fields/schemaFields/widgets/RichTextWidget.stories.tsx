@@ -18,7 +18,7 @@
 import React from "react";
 import { type ComponentMeta, type Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import TextWidget from "@/components/fields/schemaFields/widgets/TextWidget";
+import RichTextWidget from "@/components/fields/schemaFields/widgets/RichTextWidget";
 import { settingsStore } from "@/testUtils/storyUtils";
 import { Provider } from "react-redux";
 import Form from "@/components/form/Form";
@@ -26,10 +26,10 @@ import { makeTemplateExpression } from "@/runtime/expressionCreators";
 import { type Expression } from "@/core";
 
 export default {
-  title: "Widgets/TextWidget",
-  component: TextWidget,
+  title: "Widgets/RichTextWidget",
+  component: RichTextWidget,
   args: {},
-} as ComponentMeta<typeof TextWidget>;
+} as ComponentMeta<typeof RichTextWidget>;
 
 const Template: Story<{ value: string | Expression }> = ({ value }) => (
   <Provider store={settingsStore()}>
@@ -41,7 +41,7 @@ const Template: Story<{ value: string | Expression }> = ({ value }) => (
       onSubmit={action("onSubmit")}
       renderSubmit={() => null}
     >
-      <TextWidget
+      <RichTextWidget
         name="example"
         onChange={action("onChange")}
         schema={{
