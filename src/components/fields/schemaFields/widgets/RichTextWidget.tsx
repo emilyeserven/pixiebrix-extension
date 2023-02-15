@@ -40,6 +40,7 @@ import {
   makeTemplateExpression,
   makeVariableExpression,
 } from "@/runtime/expressionCreators";
+import { WysiwygEditor } from "@remirror/react-editors/wysiwyg";
 
 function schemaSupportsTemplates(schema: Schema): boolean {
   const options = getToggleOptions({
@@ -197,16 +198,19 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
   }
 
   return (
-    <Form.Control
-      as="textarea"
-      rows="1"
-      {...restInputProps}
-      {...formControlProps}
-      value={fieldInputValue}
-      onChange={fieldOnChange}
-      ref={textAreaRef}
-      onKeyDown={keyDownHandler}
-    />
+    <>
+      <Form.Control
+        as="textarea"
+        rows="1"
+        {...restInputProps}
+        {...formControlProps}
+        value={fieldInputValue}
+        onChange={fieldOnChange}
+        ref={textAreaRef}
+        onKeyDown={keyDownHandler}
+      />
+      <WysiwygEditor placeholder="Enter text..." />
+    </>
   );
 };
 
