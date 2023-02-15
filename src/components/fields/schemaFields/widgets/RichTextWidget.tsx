@@ -41,7 +41,6 @@ import {
   makeVariableExpression,
 } from "@/runtime/expressionCreators";
 import { useRemirror, Remirror } from "@remirror/react";
-import { BoldExtension } from "remirror/extensions";
 
 function schemaSupportsTemplates(schema: Schema): boolean {
   const options = getToggleOptions({
@@ -78,9 +77,8 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
 }) => {
   const [{ value, ...restInputProps }, , { setValue }] = useField(name);
 
-  const { manager, state } = useRemirror({
-    extensions: () => [new BoldExtension()],
-    content: "<p>I love <b>Remirror</b></p>",
+  const { manager, state, setState } = useRemirror({
+    content: "<p>I love Remirror</p>",
     selection: "start",
     stringHandler: "html",
   });
@@ -217,7 +215,18 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
         ref={textAreaRef}
         onKeyDown={keyDownHandler}
       />
-      <Remirror manager={manager} initialContent={state} />
+      <Remirror
+        manager={manager}
+        state={state}
+        onChange={(parameter) => {
+          const regex = /{{([^)]+)}}/g;
+          setState(parameter.state);
+          console.log("state", state);
+          console.log("parameter", parameter.helpers.getText());
+          const array = [...parameter.helpers.getText().matchAll(regex)];
+          console.log("array", array);
+        }}
+      />
     </>
   );
 };
