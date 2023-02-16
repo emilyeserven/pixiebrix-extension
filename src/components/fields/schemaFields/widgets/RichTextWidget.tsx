@@ -219,7 +219,7 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
         manager={manager}
         state={state}
         onChange={(parameter) => {
-          const regex = /{{([^)]+)}}/g;
+          const regex = /{{([^}]+)}}/g;
           setState(parameter.state);
           console.log("state", state);
           console.log("parameter", parameter.helpers.getText());
