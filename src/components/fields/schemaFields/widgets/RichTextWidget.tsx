@@ -40,7 +40,13 @@ import {
   makeTemplateExpression,
   makeVariableExpression,
 } from "@/runtime/expressionCreators";
-import { useRemirror, Remirror } from "@remirror/react";
+import {
+  useRemirror,
+  Remirror,
+  useCommands,
+  EditorComponent,
+} from "@remirror/react";
+import { TextColorExtension } from "remirror/extensions";
 
 function schemaSupportsTemplates(schema: Schema): boolean {
   const options = getToggleOptions({
@@ -58,6 +64,21 @@ function schemaSupportsTemplates(schema: Schema): boolean {
 
 function isVarValue(value: string): boolean {
   return value.startsWith("@") && !value.includes(" ");
+}
+
+function Menu() {
+  const { toggleSamp } = useCommands();
+
+  return (
+    <button
+      onClick={() => {
+        console.log("clicked");
+        toggleSamp();
+      }}
+    >
+      Samp
+    </button>
+  );
 }
 
 const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
@@ -81,6 +102,7 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
     content: "<p>I love Remirror</p>",
     selection: "start",
     stringHandler: "html",
+    extensions: () => [new TextColorExtension()],
   });
 
   const { allowExpressions: allowExpressionsContext } =
@@ -225,8 +247,18 @@ const RichTextWidget: React.VFC<SchemaFieldProps & FormControlProps> = ({
           console.log("parameter", parameter.helpers.getText());
           const array = [...parameter.helpers.getText().matchAll(regex)];
           console.log("array", array);
+          for (let i = 0; i < array.length; i++) {
+            console.log(array[i][0]);
+            console.log(array[i][0].length);
+            console.log(array[i].index);
+            console.log(array[i].index + array[i][0].length);
+            //toggleSamp({from: array[i].index, to: array[i].index + array[i][0].length});
+          }
         }}
-      />
+      >
+        <EditorComponent />
+        <Menu />
+      </Remirror>
     </>
   );
 };
